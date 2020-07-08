@@ -194,7 +194,7 @@ class NishApplication extends PrimitiveBeast
 
         $controller->setViewDir($viewDir);
 
-        if ($this->module->areViewsDisabled()) {
+        if ($this->module != null && $this->module->areViewsDisabled()) {
             $controller->disableView(true);
         }
 
@@ -209,10 +209,8 @@ class NishApplication extends PrimitiveBeast
 
             $modulePart = '';
 
-            if ($this->module != null) {
-                if ($this->module->getViewDir() == null) {
-                    $modulePart = array_reverse(explode('\\', get_class($this->module)))[0].'/';
-                }
+            if ($this->module != null && $this->module->getViewDir() == null) {
+                $modulePart = array_reverse(explode('\\', get_class($this->module)))[0].'/';
             }
 
             $viewFile = $modulePart . $callerController . '/' .$callerAction . '.phtml';
@@ -225,7 +223,7 @@ class NishApplication extends PrimitiveBeast
         if (!$controller->isViewDisabled()) {
             $layout = $controller->getLayout();
 
-            if ($layout == null) {
+            if ($layout == null && $this->module != null) {
                 $layout = $this->module->getLayout();
             }
 
