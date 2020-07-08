@@ -4,12 +4,14 @@ namespace Nish\Modules;
 use Nish\ModuleTrait;
 use Nish\PrimitiveBeast;
 
-class Module extends PrimitiveBeast implements IModule
+abstract class Module extends PrimitiveBeast implements IModule
 {
     use ModuleTrait;
 
-    public function configure()
-    {
+    protected $router;
 
+    public function __construct()
+    {
+        $this->router = $this->getRouter();
     }
 }
