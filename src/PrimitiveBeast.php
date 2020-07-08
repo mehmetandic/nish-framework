@@ -33,7 +33,7 @@ abstract class PrimitiveBeast
 
     public function getRouter()
     {
-        return self::setGlobalSetting('appRouterObj');
+        return self::getGlobalSetting('appRouterObj');
     }
 
     public static function getAllGlobalSettings()
