@@ -1,0 +1,5 @@
+[2020-07-07T00:19:06.013046+00:00] defaultLogger.ALERT: Redis connection "redis://localhost:6379" failed: Connection refused [] []
+[2020-07-07T00:19:38.897602+00:00] defaultLogger.ALERT: Redis connection "redis://localhost:6379" failed: Connection refused [] []
+[2020-07-07T00:21:04.277291+00:00] defaultLogger.ALERT: Redis connection "redis://localhost:6379" failed: Connection refused [] []
+[2020-07-07T00:21:23.154708+00:00] defaultLogger.ALERT: Redis connection "redis://localhost:6379" failed: Connection refused [] []
+[2020-07-07T00:28:31.113567+00:00] defaultLogger.ALERT: Redis connection "redis://localhost:6379" failed: Connection refused [] []
