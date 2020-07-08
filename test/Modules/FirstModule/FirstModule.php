@@ -6,4 +6,8 @@ use Nish\Modules\Module;
 class FirstModule extends Module
 {
 
+    public function configure()
+    {
+
+    }
 }

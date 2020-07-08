@@ -218,7 +218,7 @@ class NishApplication extends PrimitiveBeast
             $controller->renderView(false, $viewFile, $viewDir);
         }
 
-        $actionOutput = ob_get_clean();;
+        $actionOutput = ob_get_clean();
 
         if (!$controller->isViewDisabled()) {
             $layout = $controller->getLayout();
