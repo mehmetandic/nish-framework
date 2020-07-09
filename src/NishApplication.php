@@ -154,10 +154,10 @@ class NishApplication extends PrimitiveBeast
         //configure default session manager
         if (!$this->getDefaultSessionManager()) {
             $this->setDefaultSessionManager(function () {
-                $session = new \Symfony\Component\HttpFoundation\Session\Session();
+                $session = new \Symfony\Component\HttpFoundation\Session\Session(new \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage(), new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag());
 
                 if (!$session->isStarted()) {
-                    $session->start(new \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage(), new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag());
+                    $session->start();
                 }
 
                 return $session;
