@@ -43,9 +43,9 @@ abstract class Layout extends PrimitiveBeast implements ILayout
 
     public function __construct()
     {
-        $this->logger = $this->getDefaultLogger();
-        $this->environment = $this->getEnvironment();
-        $this->cacher = $this->getDefaultCacher();
+        $this->logger = self::getDefaultLogger();
+        $this->environment = self::getEnvironment();
+        $this->cacher = self::getDefaultCacher();
         $this->router = self::getGlobalSetting('appRouterObj');
         $this->translator = $this->getDefaultTranslator();
         $this->eventManager = $this->getDefaultEventManager();

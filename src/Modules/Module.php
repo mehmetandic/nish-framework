@@ -8,10 +8,13 @@ abstract class Module extends PrimitiveBeast implements IModule
 {
     use ModuleTrait;
 
+    /**
+     * @var \Nish\Routers\Router|null
+     */
     protected $router;
 
     public function __construct()
     {
-        $this->router = $this->getRouter();
+        $this->router = self::getRouter();
     }
 }
