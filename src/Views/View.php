@@ -20,6 +20,9 @@ class View extends PrimitiveBeast
     /* @var \Symfony\Component\HttpFoundation\Request */
     protected $request;
 
+    /* @var \Symfony\Component\HttpFoundation\Session\Session */
+    protected $sessionManager;
+
     /* @var ViewBag */
     public $viewBag;
 
@@ -33,8 +36,9 @@ class View extends PrimitiveBeast
         $this->environment = self::getEnvironment();
         $this->cacher = self::getDefaultCacher();
         $this->router = self::getGlobalSetting('appRouterObj');
-        $this->translator = $this->getDefaultTranslator();
-        $this->request = $this->getDefaultRequestUtil();
+        $this->translator = self::getDefaultTranslator();
+        $this->request = self::getDefaultRequestUtil();
+        $this->sessionManager = self::getDefaultSessionManager();
     }
 
     /**

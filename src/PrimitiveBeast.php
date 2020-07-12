@@ -105,17 +105,17 @@ abstract class PrimitiveBeast
         return self::di('defaultCacher');
     }
 
-    public function getDefaultTranslator()
+    public static function getDefaultTranslator()
     {
         return self::di('defaultTranslator');
     }
 
-    public function getAppRootDir()
+    public static function getAppRootDir()
     {
         return self::getGlobalSetting('appRootDir');
     }
 
-    public function setDefaultEventManager(callable $func)
+    public static function setDefaultEventManager(callable $func)
     {
         self::di('defaultEventManager', $func);
     }
@@ -123,12 +123,12 @@ abstract class PrimitiveBeast
     /**
      * @return \Nish\Events\EventManager | null
      */
-    public function getDefaultEventManager()
+    public static function getDefaultEventManager()
     {
         return self::di('defaultEventManager');
     }
 
-    public function setDefaultRequestUtil(callable $func)
+    public static function setDefaultRequestUtil(callable $func)
     {
         self::di('defaultRequestUtil', $func);
     }
@@ -136,12 +136,15 @@ abstract class PrimitiveBeast
     /**
      * @return \Symfony\Component\HttpFoundation\Request
      */
-    public function getDefaultRequestUtil()
+    public static function getDefaultRequestUtil()
     {
         return self::di('defaultRequestUtil');
     }
 
-    public function getDefaultSessionManager()
+    /**
+     * @return \Symfony\Component\HttpFoundation\Session\Session|null
+     */
+    public static function getDefaultSessionManager()
     {
         return self::di('defaultSessionManager');
     }

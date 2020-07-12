@@ -37,4 +37,10 @@ class Router extends \AltoRouter
         header('Location: '.$route);
         exit();
     }
+
+    public function routeByName($routeName)
+    {
+        header('Location: '.$this->generate($routeName));
+        exit();
+    }
 }

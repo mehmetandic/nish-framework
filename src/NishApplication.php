@@ -131,15 +131,15 @@ class NishApplication extends PrimitiveBeast
         }
 
         //configure default event manager
-        if (!$this->getDefaultEventManager()){
-            $this->setDefaultEventManager(function () {
+        if (!self::getDefaultEventManager()){
+            self::setDefaultEventManager(function () {
                 return new \Nish\Events\EventManager();
             });
         }
 
         //configure default request utility
-        if (!$this->getDefaultRequestUtil()) {
-            $this->setDefaultRequestUtil(function () {
+        if (!self::getDefaultRequestUtil()) {
+            self::setDefaultRequestUtil(function () {
                 return \Symfony\Component\HttpFoundation\Request::createFromGlobals();
             });
         }
@@ -152,7 +152,7 @@ class NishApplication extends PrimitiveBeast
         }
 
         //configure default session manager
-        if (!$this->getDefaultSessionManager()) {
+        if (!self::getDefaultSessionManager()) {
             $this->setDefaultSessionManager(function () {
                 $session = new \Symfony\Component\HttpFoundation\Session\Session(new \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage(), new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag());
 
