@@ -26,6 +26,9 @@ abstract class Layout extends PrimitiveBeast implements ILayout
     /* @var \Symfony\Component\HttpFoundation\Request */
     protected $request;
 
+    /* @var \Symfony\Component\HttpFoundation\Session\Session */
+    protected $sessionManager;
+
     /* @var IModule $module */
     private $module = null;
 
@@ -47,9 +50,10 @@ abstract class Layout extends PrimitiveBeast implements ILayout
         $this->environment = self::getEnvironment();
         $this->cacher = self::getDefaultCacher();
         $this->router = self::getGlobalSetting('appRouterObj');
-        $this->translator = $this->getDefaultTranslator();
-        $this->eventManager = $this->getDefaultEventManager();
-        $this->request = $this->getDefaultRequestUtil();
+        $this->translator = self::getDefaultTranslator();
+        $this->eventManager = self::getDefaultEventManager();
+        $this->request = self::getDefaultRequestUtil();
+        $this->sessionManager = self::getDefaultSessionManager();
 
         $this->view = new View();
         $this->viewBag = new ViewBag();

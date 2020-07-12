@@ -15,6 +15,9 @@ class Provider extends PrimitiveBeast implements IProvider
     /* @var \Nish\Routers\Router */
     protected $router;
 
+    /* @var \Symfony\Component\HttpFoundation\Session\Session */
+    protected $sessionManager;
+
     protected $translator;
 
     /* @var \Nish\Events\EventManager */
@@ -29,8 +32,9 @@ class Provider extends PrimitiveBeast implements IProvider
         $this->environment = self::getEnvironment();
         $this->cacher = self::getDefaultCacher();
         $this->router = self::getGlobalSetting('appRouterObj');
-        $this->translator = $this->getDefaultTranslator();
-        $this->eventManager = $this->getDefaultEventManager();
-        $this->request = $this->getDefaultRequestUtil();
+        $this->translator = self::getDefaultTranslator();
+        $this->eventManager = self::getDefaultEventManager();
+        $this->request = self::getDefaultRequestUtil();
+        $this->sessionManager = self::getDefaultSessionManager();
     }
 }
