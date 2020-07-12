@@ -54,7 +54,7 @@ $app->setDefaultCacher(function () use ($app){
         return null;
     } catch (\Exception $e) {
         /* @var \Nish\Utils\Loggers\Logger */
-        $logger = $app->getDefaultLogger();
+        $logger = NishApplication::getDefaultLogger();
 
         if (!empty($logger)) {
             $logger->alert($e->getMessage());

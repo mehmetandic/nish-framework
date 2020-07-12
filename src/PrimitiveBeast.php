@@ -31,7 +31,10 @@ abstract class PrimitiveBeast
         }
     }
 
-    public function getRouter()
+    /**
+     * @return \Nish\Routers\Router|null
+     */
+    public static function getRouter()
     {
         return self::getGlobalSetting('appRouterObj');
     }
@@ -59,42 +62,45 @@ abstract class PrimitiveBeast
         return null;
     }
 
-    public function getEnvironment()
+    public static function getEnvironment()
     {
         return self::getGlobalSetting('env');
     }
 
-    public function isAppInDebugMode(): bool
+    public static function isAppInDebugMode(): bool
     {
         return self::getGlobalSetting('debugMode') === true;
     }
 
-    public function setLogLevel(int $level)
+    public static function setLogLevel(int $level)
     {
         self::setGlobalSetting('logLevel', $level);
     }
 
-    public function getLogLevel()
+    public static function getLogLevel()
     {
         return self::getGlobalSetting('logLevel');
     }
 
-    public function getNotFoundAction()
+    public static function getNotFoundAction()
     {
         return self::getGlobalSetting('notFoundAction');
     }
 
-    public function callNotFoundAction()
+    public static function callNotFoundAction()
     {
-        call_user_func($this->getNotFoundAction());
+        call_user_func(self::getNotFoundAction());
     }
 
-    public function getDefaultLogger()
+    /**
+     * @return \Nish\Utils\Loggers\Logger|null
+     */
+    public static function getDefaultLogger()
     {
         return self::di('defaultLogger');
     }
 
-    public function getDefaultCacher()
+    public static function getDefaultCacher()
     {
         return self::di('defaultCacher');
     }
@@ -146,7 +152,7 @@ abstract class PrimitiveBeast
 
         $serializedArgs = sha1(serialize($args));
 
-        $cacher = $this->getDefaultCacher();
+        $cacher = self::getDefaultCacher();
 
         if (empty($cacher)) {
             $result = call_user_func_array([$this, $methodName], $args);
@@ -155,7 +161,7 @@ abstract class PrimitiveBeast
 
             $key = 'methods|' . str_replace(['/','\\'], '|', trim(get_class($obj), '/\\')).'|'.$serializedArgs;
 
-            $result = $this->cacher->get($key, function (\Symfony\Contracts\Cache\ItemInterface $item) use ($obj, $methodName, $args, $expiresAfter) {
+            $result = $cacher->get($key, function (\Symfony\Contracts\Cache\ItemInterface $item) use ($obj, $methodName, $args, $expiresAfter) {
                 $item->expiresAfter($expiresAfter);
 
                 return call_user_func_array([$obj, $methodName], $args);

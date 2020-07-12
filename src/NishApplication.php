@@ -81,7 +81,7 @@ class NishApplication extends PrimitiveBeast
             $this->runAction($controller, $action);
 
         } catch (NotFoundActionException | Exception $e) {
-            $this->callNotFoundAction();
+            self::callNotFoundAction();
         }
 
     }
@@ -94,25 +94,25 @@ class NishApplication extends PrimitiveBeast
     protected function configure()
     {
         // set default environment
-        if (!$this->getEnvironment()) {
+        if (!self::getEnvironment()) {
             $this->setEnvironment(self::ENV_DEV);
         }
 
         // set default log level
-        if (!$this->getLogLevel()) {
-            if ($this->isAppInDebugMode()) {
-                $this->setLogLevel(Logger::DEBUG);
+        if (!self::getLogLevel()) {
+            if (self::isAppInDebugMode()) {
+                self::setLogLevel(Logger::DEBUG);
             } else {
-                $this->setLogLevel(Logger::WARNING);
+                self::setLogLevel(Logger::WARNING);
             }
         }
 
         // configure default logger
-        if (!$this->getDefaultLogger()) {
+        if (!self::getDefaultLogger()) {
             $this->setDefaultLogger(function () {
                 $logger = new Logger('defaultLogger');
 
-                $streamHandler = new \Monolog\Handler\StreamHandler(__DIR__.'/logs/'.(NishDateTime::format(time(),'Y-m-d')).'.log', $this->getLogLevel());
+                $streamHandler = new \Monolog\Handler\StreamHandler(__DIR__.'/logs/'.(NishDateTime::format(time(),'Y-m-d')).'.log', self::getLogLevel());
 
                 $logger->pushHandler($streamHandler);
 
@@ -145,7 +145,7 @@ class NishApplication extends PrimitiveBeast
         }
 
         // configure default not found action
-        if (!$this->getNotFoundAction()) {
+        if (!self::getNotFoundAction()) {
             $this->setNotFoundAction(function () {
                 Response::sendResponse('<h1>404 Not Found</h1>', Response::HTTP_NOT_FOUND);
             });
@@ -154,10 +154,10 @@ class NishApplication extends PrimitiveBeast
         //configure default session manager
         if (!$this->getDefaultSessionManager()) {
             $this->setDefaultSessionManager(function () {
-                $session = new \Symfony\Component\HttpFoundation\Session\Session();
+                $session = new \Symfony\Component\HttpFoundation\Session\Session(new \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage(), new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag());
 
                 if (!$session->isStarted()) {
-                    $session->start(new \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage(), new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag());
+                    $session->start();
                 }
 
                 return $session;
