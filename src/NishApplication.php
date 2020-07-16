@@ -44,6 +44,7 @@ class NishApplication extends PrimitiveBeast
             $module = null;
             $controller = null;
             $action = null;
+            $params = null;
 
             /** BEGIN: Match Route **/
             // match current request url
@@ -55,6 +56,8 @@ class NishApplication extends PrimitiveBeast
                 $module = $target[0];
                 $controller = $target[1];
                 $action = $target[2];
+
+                if (isset($match['params'])) $params = $match['params'];
             }
             /** END: Match Route **/
 
@@ -78,7 +81,7 @@ class NishApplication extends PrimitiveBeast
                 throw new NotFoundActionException('Action or controller is null');
             }
 
-            $this->runAction($controller, $action);
+            $this->runAction($controller, $action, $params);
 
         } catch (NotFoundActionException | Exception $e) {
             self::callNotFoundAction();
