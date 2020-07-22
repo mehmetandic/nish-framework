@@ -25,6 +25,11 @@ trait ModuleTrait
         self::setGlobalSetting('notFoundAction', $action);
     }
 
+    public function setUnexpectedExceptionBehaviour(callable $action)
+    {
+        self::setGlobalSetting('unexpectedExceptionBehaviour', $action);
+    }
+
     public function setDefaultLogger(callable $func)
     {
         self::di('defaultLogger', $func);
