@@ -46,11 +46,15 @@ class Pipe
     private function runFunc(array $runnableObj, $previousResult)
     {
         $params = [];
-
         if ($runnableObj['receivePrevRes']) {
-            if (!empty($previousResult) && !is_array($previousResult)) $params = [$previousResult];
+            if (!empty($previousResult)) {
+                if (is_array($previousResult)) {
+                    $params = $previousResult;
+                } else {
+                    $params = [$previousResult];
+                }
+            }
         }
-
 
         if (!empty($runnableObj['extraParams'])) {
             foreach ($runnableObj['extraParams'] as $i => $param) {
