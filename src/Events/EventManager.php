@@ -64,12 +64,19 @@ class EventManager extends PrimitiveBeast implements IEventManager
      * @param string|null $listenerType
      * @return array|mixed
      */
-    public function trigger(string $eventName, string $listenerType = null)
+    public function trigger(string $eventName, string $listenerType = null, $startParams = null)
     {
-        $result = null;
+        $result = $startParams;
 
         if ($this->hasEventListener($eventName, $listenerType)) {
-            $result = [];
+            if (empty($startParams)) {
+                $result = [];
+            } elseif (is_array($startParams)) {
+                $result = $startParams;
+            } else {
+                $result = [$startParams];
+            }
+
 
             if (is_null($listenerType)) {
                 /* @var Pipe $pipe */

@@ -3,6 +3,7 @@ namespace Nish;
 
 use Nish\Controllers\Controller;
 use Nish\Events\Events;
+use Nish\Events\IEventManager;
 use Nish\Exceptions\Exception;
 use Nish\Exceptions\NotFoundActionException;
 use Nish\Modules\Module;
@@ -86,18 +87,11 @@ class NishApplication extends PrimitiveBeast
 
             $eventManager = self::getDefaultEventManager();
 
-            if ($eventManager) {
-                $eventManager->addEventListener(Events::ON_BEFORE_SEND_RESPONSE, 'default', function ($response) {
-                    return $response;
-                }, false, [$response]);
-
-                echo $eventManager->trigger(Events::ON_BEFORE_SEND_RESPONSE);
+            if ($eventManager instanceof IEventManager) {
+                echo $eventManager->trigger(Events::ON_BEFORE_SEND_RESPONSE, null, $response);
             } else {
                 echo $response;
             }
-
-
-
 
         } catch (NotFoundActionException $e) {
             self::callNotFoundAction();
@@ -197,6 +191,7 @@ class NishApplication extends PrimitiveBeast
                 return $session;
             });
         }
+
     }
 
     public function getDefaultLogLineFormatter()
