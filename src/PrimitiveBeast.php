@@ -92,6 +92,16 @@ abstract class PrimitiveBeast
         call_user_func(self::getNotFoundAction());
     }
 
+    public static function getUnexpectedExceptionBehaviour()
+    {
+        return self::getGlobalSetting('unexpectedExceptionBehaviour');
+    }
+
+    public static function runUnexpectedExceptionBehaviour($e)
+    {
+        call_user_func(self::getUnexpectedExceptionBehaviour(), $e);
+    }
+
     /**
      * @return \Nish\Utils\Loggers\Logger|null
      */

@@ -2,6 +2,8 @@
 namespace Nish;
 
 use Nish\Controllers\Controller;
+use Nish\Events\Events;
+use Nish\Events\IEventManager;
 use Nish\Exceptions\Exception;
 use Nish\Exceptions\NotFoundActionException;
 use Nish\Modules\Module;
@@ -81,10 +83,20 @@ class NishApplication extends PrimitiveBeast
                 throw new NotFoundActionException('Action or controller is null');
             }
 
-            $this->runAction($controller, $action, $params);
+            $response = $this->runAction($controller, $action, $params);
 
-        } catch (NotFoundActionException | Exception $e) {
+            $eventManager = self::getDefaultEventManager();
+
+            if ($eventManager instanceof IEventManager) {
+                echo $eventManager->trigger(Events::ON_BEFORE_SEND_RESPONSE, null, $response);
+            } else {
+                echo $response;
+            }
+
+        } catch (NotFoundActionException $e) {
             self::callNotFoundAction();
+        } catch (\Exception $e) {
+            self::runUnexpectedExceptionBehaviour($e);
         }
 
     }
@@ -150,7 +162,20 @@ class NishApplication extends PrimitiveBeast
         // configure default not found action
         if (!self::getNotFoundAction()) {
             $this->setNotFoundAction(function () {
-                Response::sendResponse('<h1>404 Not Found</h1>', Response::HTTP_NOT_FOUND);
+                Response::sendResponse('<h1>404 - Not Found</h1>', Response::HTTP_NOT_FOUND);
+            });
+        }
+
+        // configure default unexpected exception behaviour
+        if (!self::getUnexpectedExceptionBehaviour()) {
+            $this->setUnexpectedExceptionBehaviour(function (\Exception $e) {
+                $logger = self::getDefaultLogger();
+
+                if ($logger) {
+                    $logger->error('Exception: '.$e->getMessage(), ', Trace: '.$e->getTraceAsString());
+                }
+
+                Response::sendResponse('<h1>500 - Interval Server Error</h1>', Response::HTTP_INTERNAL_SERVER_ERROR);
             });
         }
 
@@ -166,6 +191,7 @@ class NishApplication extends PrimitiveBeast
                 return $session;
             });
         }
+
     }
 
     public function getDefaultLogLineFormatter()
@@ -239,13 +265,13 @@ class NishApplication extends PrimitiveBeast
                 if ($layoutView != null) {
                     $layoutView->setViewBag($layout->getViewBag());
                     $layoutView->controllerOutput = $layout->getControllerOutput();
-                    echo $layoutView->render($layout->getViewFile());
+                    return $layoutView->render($layout->getViewFile());
                 }
             } else {
-                echo $actionOutput;
+                return $actionOutput;
             }
         } else {
-            echo $actionOutput;
+            return $actionOutput;
         }
     }
 
