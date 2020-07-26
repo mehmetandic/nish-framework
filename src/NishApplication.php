@@ -172,7 +172,7 @@ class NishApplication extends PrimitiveBeast
                 $logger = self::getDefaultLogger();
 
                 if ($logger) {
-                    $logger->error('Exception: '.$e->getMessage(), ', Trace: '.$e->getTraceAsString());
+                    $logger->error('Exception: '.$e->getMessage().', Trace: '.$e->getTraceAsString());
                 }
 
                 Response::sendResponse('<h1>500 - Interval Server Error</h1>', Response::HTTP_INTERNAL_SERVER_ERROR);
