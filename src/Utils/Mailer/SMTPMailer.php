@@ -12,6 +12,10 @@ class SMTPMailer extends PrimitiveBeast implements IMailer
     {
         $mailer = new PHPMailer(true);
         $mailer->isHTML(true);
+        $mailer->isSMTP();
+        $mailer->Encoding = PHPMailer::ENCODING_BASE64;
+        $mailer->CharSet = PHPMailer::CHARSET_UTF8;
+
 
         if (self::isAppInDebugMode()) {
             $mailer->SMTPDebug = SMTP::DEBUG_SERVER;
